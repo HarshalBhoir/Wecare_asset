@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="0">
+
+<record id="ir_cron_user_renewal_notification_fiften" model="ir.cron">
+	<field name="name">Renewal Notification 15</field>
+	<field eval="True" name="active" />
+	<field name="user_id" ref="base.user_root" />
+	<field name="interval_number">1</field>
+	<field name="interval_type">days</field>
+	<field name="numbercall">-1</field>
+	<field eval="False" name="doall" />
+	<field eval="'res.users'" name="model" />
+	<field eval="'membership_renewal_notification_fiften'" name="function" />
+	<field eval="'(None,)'" name="args" />
+	<field name="priority">20</field>
+</record>
+
+<!-- Renewal Email Template -->
+<record id="email_template_member_renewal_fiften" model="mail.template">
+	<field name="name">User Membership Renewal Template</field>
+	<field name="subject">Membership Renewal</field>
+	<field name="email_to">${object.partner_id.email}</field>
+	<field name="model_id" ref="base.model_res_users" />
+	<field name="auto_delete" eval="True" />
+	<field name="body_html"><![CDATA[
+<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+
+<p>Hello ${object.name},</p>
+<p>Your Membership with WeCARE will expired after 15 Days. Please Renew. </p>
+
+</div>
+]]></field>
+</record>
+
+<!-- renewal Email Schedular 45 Days -->
+<record id="ir_cron_user_renewal_notification_fortyfive" model="ir.cron">
+	<field name="name">Renewal Notification 45</field>
+	<field eval="True" name="active" />
+	<field name="user_id" ref="base.user_root" />
+	<field name="interval_number">1</field>
+	<field name="interval_type">days</field>
+	<field name="numbercall">-1</field>
+	<field eval="False" name="doall" />
+	<field eval="'res.users'" name="model" />
+	<field eval="'membership_renewal_notification_fortyfive'" name="function" />
+	<field eval="'(None,)'" name="args" />
+	<field name="priority">20</field>
+</record>
+
+
+<!-- Renewal Email Template -->
+<record id="email_template_member_renewal_fortyfive" model="mail.template">
+	<field name="name">User Membership Renewal Template</field>
+	<field name="subject">Membership Renewal</field>
+	<field name="email_to">${object.partner_id.email}</field>
+	<field name="model_id" ref="base.model_res_users" />
+	<field name="auto_delete" eval="True" />
+	<field name="body_html"><![CDATA[
+<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+
+<p>Hello ${object.name},</p>
+<p>Your Membership with WeCARE will expired after 45 Days. Please Renew. </p>
+
+</div>
+]]></field>
+</record>
+
+
+<!-- renewal Email Schedular -->
+<record id="ir_cron_user_renewal_notification" model="ir.cron">
+	<field name="name">Renewal Notification 3</field>
+	<field eval="True" name="active" />
+	<field name="user_id" ref="base.user_root" />
+	<field name="interval_number">1</field>
+	<field name="interval_type">days</field>
+	<field name="numbercall">-1</field>
+	<field eval="False" name="doall" />
+	<field eval="'res.users'" name="model" />
+	<field eval="'membership_renewal_notification'" name="function" />
+	<field eval="'(None,)'" name="args" />
+	<field name="priority">20</field>
+</record>
+
+
+<!-- Renewal Email Template -->
+<record id="email_template_member_renewal" model="mail.template">
+	<field name="name">User Membership Renewal Template</field>
+	<field name="subject">Membership Renewal</field>
+	<field name="email_to">${object.partner_id.email}</field>
+	<field name="model_id" ref="base.model_res_users" />
+	<field name="auto_delete" eval="True" />
+	<field name="body_html"><![CDATA[
+<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+
+<p>Hello ${object.name},</p>
+<p>Your Membership with WeCARE will expired after 3 Days. Please Renew. </p>
+
+</div>
+]]></field>
+</record>
+
+<record model="ir.cron" id="availability_create_cron">
+	<field name="name"> Birthday Reminder </field>
+	<field name="interval_number">1</field>
+	<field name="interval_type">days</field>
+	<field name="numbercall">-1</field>
+	<field name="doall" eval="False"/>
+	<field name="model" eval="'res.partner'"/>
+	<field name="function" eval="'_cron_birthday_reminder'"/>
+	<field name="args" eval="'()'" />
+</record>
+
+<record id="email_template_edi_birthday_reminder" model="mail.template">
+	<field name="name">Birthday Wishes...!!</field>
+	<field name="subject">Happy Birthday ${object.name or 'n/a' }</field>
+	<field name="model_id" ref="webstore_service.model_res_partner" />
+	<field name="auto_delete" eval="True" />
+	<field name="body_html"><![CDATA[
+			<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+				<p>Birthday Wishes</p>
+				<p> Wish You a very very Happy Birthday, ${object.name}. Hope you have a great Year Ahead. Stay Healthy, Stay Happy.Cheers. </p>
+			</div>
+				]]>
+	</field>
+</record>
+
+</odoo>

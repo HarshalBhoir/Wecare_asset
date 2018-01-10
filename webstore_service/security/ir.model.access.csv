@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sale_order,sale.order portal,sale.model_sale_order,base.group_portal,1,0,0,0
+access_account_invoice,account.invoice portal,account.model_account_invoice,base.group_portal,1,0,0,0
+access_crm_lead,crm.lead portal,crm.model_crm_lead,base.group_portal,1,0,0,0

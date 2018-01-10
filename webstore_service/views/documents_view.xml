@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<odoo>
+	<!--Document-->
+<record id="file_document_tree" model="ir.ui.view">
+	<field name="name">Documents</field>
+	<field name="model">file.document</field>
+	<field name="arch" type="xml">
+		<tree>
+			<field name="name"/>
+			<field name="type"/>
+			<field name="url"/>
+			<field name="file"/>
+		</tree>
+	</field>
+</record>
+<record id="file_document_form" model="ir.ui.view">
+	<field name="name">Documents</field>
+	<field name="model">file.document</field>
+	<field name="arch" type="xml">
+		<form>
+			<sheet>
+				<label for="name" class="oe_edit_only"/>
+				<h1>
+					<field name="name" string="Attachment Name"/>
+				</h1>
+				<group>
+					
+					<field name="type"/>
+					<field name="url" widget="url" attrs="{'invisible':[('type','!=','url')]}"/>
+					<field name="file" attrs="{'invisible':[('type','!=','file')]}" filename = "file_name"/>
+					<field name="file_name" invisible="1"/>
+				</group>
+			</sheet>
+		</form>
+	</field>
+</record>
+
+<record model="ir.ui.view" id="file_document_kanban">
+		<field name="name">Documents</field>
+		<field name="model">file.document</field>
+		<field name="arch" type="xml">
+			<kanban class="o_kanban_mobile">
+				<field name="name"/>
+				<field name="type"/>
+				<field name="url"/>
+				<field name="file"/>
+				<templates>
+					<t t-name="kanban-box">
+						<div class="oe_kanban_global_click">
+							<div class="oe_kanban_details" >
+								<strong class="oe_partner_heading"><field name="name"/></strong>
+							 <ul>
+								<li><field name="type"/></li>
+								<li t-if="record.url"><field name="url"/></li>
+								<li t-if="record.file"><field name="file_name"/></li>
+							</ul>
+							</div>
+						</div>
+					</t>
+				</templates>
+			</kanban>
+		</field>
+</record>
+
+<record id="file_document_action" model="ir.actions.act_window">
+	<field name="name">Documents</field>
+	<field name="res_model">file.document</field>
+	<field name="view_type">form</field>
+	<field name="view_mode">kanban,tree,form</field>
+	<field name="help" type="html">
+		<p>
+			No Record created.
+		</p>
+	</field>
+</record>
+
+<menuitem name="Documents" id="documents" action="file_document_action" parent="base.menu_base_partner" sequence="100"/>
+</odoo>
+

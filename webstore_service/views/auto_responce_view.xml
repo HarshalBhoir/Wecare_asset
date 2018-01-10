@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<odoo>
+<record id="auto_responce_tree" model="ir.ui.view">
+	<field name="name">Auto Responce</field>
+	<field name="model">auto.responce</field>
+	<field name="arch" type="xml">
+		<tree>
+			<field name="name"/> 
+		</tree>
+	</field>
+</record>
+
+<record id="auto_responce_form" model="ir.ui.view">
+	<field name="name">Auto Responce</field>
+	<field name="model">auto.responce</field>
+	<field name="arch" type="xml">
+		<form>
+			<sheet>
+				<label for="name" class="oe_edit_only"/>
+				<h1>
+					<field name="name"/>
+				</h1>
+				<group>
+					<field name="box"/>
+					<field name="description"/>
+					<field name="diff_desc"/>
+					<field name="account"/>
+				</group>
+			</sheet>
+		</form>
+	</field>
+</record>
+
+<record id="auto_responce_action" model="ir.actions.act_window">
+	<field name="name">Auto Response Template</field>
+	<field name="res_model">auto.responce</field>
+	<field name="view_type">form</field>
+	<field name="view_mode">tree,form</field>
+	<field name="help" type="html">
+		<p>
+			No Record created.
+		</p>
+	</field>
+</record>
+
+<!--<menuitem name="Auto Response Template" id="auto_reponce" action="auto_responce_action" parent="base.menu_base_partner" sequence="100"/>-->
+</odoo>
+

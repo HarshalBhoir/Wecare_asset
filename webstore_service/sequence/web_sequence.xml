@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<!-- Sequences for Ticket -->
+<record id="seq_users" model="ir.sequence">
+	<field name="name">Users Sequence</field>
+	<field name="code">res.users</field>
+	<field name="prefix">REF</field>
+	<field name="suffic">%%(doy)s</field>
+	<field name="padding">5</field>
+	<field name="implementation">no_gap</field>
+	<field name="number_increment">3</field>
+</record>
+
+</odoo>

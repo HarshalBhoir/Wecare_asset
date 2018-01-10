@@ -1,0 +1,200 @@
+<odoo>
+	
+<record id="mail.mail_template_data_notification_email_default" model="mail.template">
+	<field name="body_html">
+		<![CDATA[
+<div itemscope itemtype="http://schema.org/EmailMessage">
+    <div itemprop="potentialAction" itemscope itemtype="http://schema.org/ViewAction">
+        <link itemprop="target" href="${ctx['button_access']['url']}"/>
+        <link itemprop="url" href="${ctx['button_access']['url']}"/>
+        <meta itemprop="name" content="View ${ctx['model_name']}"/>
+    </div>
+</div>
+<div style="padding:0px; width:600px; margin:0 auto; background: #FFFFFF repeat top /100%; color:#777777">
+    <table cellspacing="0" cellpadding="0" style="vertical-align:top; padding:0px; border-collapse:collapse; background:inherit; color:inherit">
+        <tbody><tr>
+            <td valign="top" style="width:600px; padding:5px 10px 5px 5px;">
+                <div>
+                    <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0;margin:15px auto;padding:0">
+                </div>
+            </td>
+        </tr></tbody>
+    </table>
+</div>
+<div style="padding:0px; width:600px; margin:0 auto; background: #FFFFFF repeat top /100%;color:#777777">
+    <table cellspacing="0" cellpadding="0" border="0" style="margin: 0 auto; width:600px; border-collapse:collapse; background:inherit; color:inherit">
+        <tbody><tr>
+            <td style="padding:5px 10px 5px 5px;font-size: 14px;">
+                ${object.body | safe}
+                % if ctx.get('tracking'):
+                    <ul>
+                    % for tracking in ctx['tracking']
+                        <li>${tracking[0]} : ${tracking[1]} -&gt; ${tracking[2]}</li>
+                    % endfor
+                    </ul>
+                % endif
+            </td>
+        </tr></tbody>
+    </table>
+</div>
+% if ctx.get('signature'):
+<div style="padding:0px; width:600px;margin:0 auto; background: #FFFFFF repeat top /100%;color:#777777">
+    <table cellspacing="0" cellpadding="0" border="0" style="margin: 0 auto; width:600px; border-collapse:collapse; background:inherit; color:inherit">
+        <tbody><tr>
+            <td style="padding:5px 10px 5px 5px;font-size: 14px; text-align: left;">
+                ${ctx['signature'] | safe}
+            </td>
+        </tr></tbody>
+    </table>
+</div>
+% endif
+]]>
+	</field>
+</record>
+	
+	
+<template id="sign_up_rename" inherit_id="auth_signup.login">
+	<xpath expr="//a[@t-if='signup_enabled']" position="replace">
+		<a t-if="signup_enabled" t-attf-href="/web/signup?{{ keep_query() }}" class="btn btn-link pull-right">New to WeCARE? Signup</a>
+	</xpath>
+</template>
+
+<template id="external_layout_webstore_header" inherit_id="report.external_layout_header">
+	<xpath expr="//div[@name='company_address']" position="replace"></xpath>
+	<xpath expr="//img[@t-if='company.logo']" position="attributes">
+		<attribute name="style">max-height: 180px</attribute>
+	</xpath>
+</template>
+
+<template id="external_layout_webstore_footer" inherit_id="report.external_layout_footer">
+	<xpath expr="//li[@t-if='company.phone']" position="replace">
+		<li t-if="company.phone">WeCARE Global Home Solutions Pvt. Ltd.</li>
+	</xpath>
+</template>
+	
+<!--	 <div class="row">-->
+<!--            <div class="col-xs-6" name="company_address">-->
+<!--                <div t-field="company.partner_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: true}" style="border-bottom: 1px solid black;"/>-->
+<!--            </div>-->
+<!--        </div>-->
+	
+<template id="profile" name="Profile" inherit_id="website_portal.account">
+	<xpath expr="//div[contains(@class,'o_my_details')]" position="replace">
+		<div class="o_my_details">
+			<h3 class="page-header">Your Profile <a href="/my/account" class="btn btn-default btn-xs">Change</a></h3>
+			<div t-field="user.partner_id" t-field-options='{"widget": "contact", "fields": ["email", "phone", "address", "name"]}'/>
+		</div>
+	</xpath>
+</template>
+	
+<template id="lead" name="Account" inherit_id="website_portal.account">
+	<xpath expr="//div[contains(@class,'o_my_documents')]" position="inside">
+		<t t-call="webstore_service.leads" />
+	</xpath>
+</template>
+	
+<template id="payment" name="Payment" inherit_id="website_payment.pay_meth_link">
+	<xpath expr="//div[@class='o_my_details']//a" position="replace">
+	</xpath>
+</template>
+	
+<template id="details" name="Details" inherit_id="website_portal.details">
+	<xpath expr="//form/div[contains(@class,'o_website_portal_details')]/div[contains(@class,'col-md-8')]/div[contains(@class,'row')]" position="replace">
+		<div class="col-md-12">
+			<div t-if="error_message" class="alert alert-danger">
+				<t t-foreach="error_message" t-as="err"><t t-esc="err"/><br /></t>
+			</div>
+		  </div>
+		  <div t-attf-class="form-group #{error.get('name') and 'has-error' or ''} col-lg-6">
+			  <label class="control-label" for="contact_name">Your Name</label>
+			  <input type="text" name="name" class="form-control" t-att-value="name or partner.name" />
+		  </div>
+		  <div t-attf-class="form-group #{error.get('email') and 'has-error' or ''} col-lg-6">
+			  <label class="control-label" for="contact_name">Email</label>
+			  <input type="email" name="email" class="form-control" t-att-value="email or partner.email" />
+		  </div>
+		  <div t-attf-class="form-group #{error.get('phone') and 'has-error' or ''} col-lg-6">
+			  <label class="control-label" for="phone">Phone/Landline</label>
+			  <input type="tel" name="phone" class="form-control" t-att-value="phone or partner.phone" />
+		  </div>
+			<div t-attf-class="form-group #{error.get('mobile') and 'has-error' or ''} col-lg-6">
+				<label class="control-label" for="mobile">Mobile/Handphone</label>
+				<input type="tel" name="mobile" class="form-control" t-att-value="mobile or partner.mobile" />
+			</div>
+			<div t-attf-class="form-group #{error.get('profession') and 'has-error' or ''} col-lg-6">
+				<label class="control-label" for="profession">Profession</label>
+				<input type="text" name="profession" class="form-control" t-att-value="profession or partner.profession" />
+			</div>
+		  <div class="col-lg-9" style="color: rgb(252, 150, 29); background: rgb(255, 255, 255) none repeat scroll 0% 0%; font-size: 17px; font-weight: 600;" >Complete Overseas Residential Address</div>
+		  <div t-attf-class="form-group #{error.get('street') and 'has-error' or ''} col-lg-6">
+			  <label class="control-label" for="street">Address line1</label>
+			  <input type="text" name="street" class="form-control" t-att-value="street or partner.street"/>
+		  </div>
+		  <div t-attf-class="form-group #{error.get('street') and 'has-error' or ''} col-lg-6">
+			  <label class="control-label" for="street">Address line2</label>
+			  <input type="text" name="street2" class="form-control" t-att-value="street2 or partner.street2" />
+		  </div>
+		  <div t-attf-class="form-group #{error.get('city') and 'has-error' or ''} col-lg-6">
+			  <label class="control-label" for="city">City</label>
+			  <input type="text" name="city" class="form-control" t-att-value="city or partner.city" />
+		  </div>
+		  <div t-attf-class="form-group #{error.get('zip') and 'has-error' or ''} col-lg-6">
+			  <label class="control-label" for="zipcode">Zip / Postal Code</label>
+			  <input type="text" name="zipcode" class="form-control" t-att-value="zipcode or partner.zip" />
+		  </div>
+		  <div t-attf-class="form-group #{error.get('state_id') and 'has-error' or ''} col-lg-6">
+			<label class="control-label" for="state_id">State</label>
+			<select name="state_id" class="form-control">
+				<option value="">select...</option>
+				<t t-foreach="states or []" t-as="state">
+					<option t-att-value="state.id" style="display:none;" t-att-data-country_id="state.country_id.id" t-att-selected="state.id == partner.state_id.id">
+						<t t-esc="state.name" />
+					</option>
+				</t>
+			</select>
+		</div>
+		  <div t-attf-class="form-group #{error.get('country_id') and 'has-error' or ''} col-lg-6">
+			  <label class="control-label" for="country_id">Country</label>
+			  <select name="country_id" class="form-control">
+				  <option value="">Country...</option>
+				  <t t-foreach="countries or []" t-as="country">
+					  <option t-att-value="country.id" t-att-selected="country.id == partner.country_id.id">
+						  <t t-esc="country.name" />
+					  </option>
+				  </t>
+			  </select>
+		  </div>
+		  <input type="hidden" name="redirect" t-att-value="redirect"/>
+	</xpath>
+</template>
+	
+<template id="leads" name="Requests">
+	<h3 class="page-header">Your Requests</h3>
+	<t t-if="not leads">
+		<p>There are currently no Requests for your account.</p>
+	</t>
+	<t t-if="leads">
+		<table class="table table-hover o_my_status_table">
+			<thead>
+			  <tr class="active">
+				  <th>Requests #</th>
+				  <th>Date</th>
+				</tr>
+			</thead>
+			<t t-foreach="leads" t-as="lead">
+				<tr t-att-class="'hidden to_hide' if lead_index &gt; 4 else ''">
+					<td>
+						<!--<a t-att-href="'/my/orders/'+str(lead.id)">-->
+						<span t-esc="lead.name"/>
+						<!--</a>-->
+					</td>
+					<td><span t-field="lead.create_date"/></td>
+				</tr>
+			</t>
+			<tr t-att-class="'hidden' if len(leads) &lt; 5 else ''">
+			  <td colspan="1"><a href="" class="o_my_show_more btn btn-xs btn-default"><span>Show more</span><span class="hidden">Show less</span></a></td>
+			</tr>
+		</table>
+	</t>
+</template>
+</odoo>

@@ -1,0 +1,688 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<odoo>
+<!--<template id="signup_fields_member" name="Sign up login" inherit_id="auth_signup.signup">
+	<xpath expr="//div[@class='form-group field-confirm_password']" position="after">
+</template>-->
+<!-- Login Form -->
+<template id="webstore_service" name="webstore_service assets_backend" inherit_id="website.assets_frontend">
+	<xpath expr="." position="inside">
+		<link rel="stylesheet" type="text/css" href="/webstore_service/static/src/less/style.less"/>
+	</xpath>
+</template>
+
+<template id="auth_signup.fields" name="Auth Signup/ResetPassword form fields">
+        <style>
+            .oe_website_login_container {
+                width: unset !important;
+            }
+            .sign_up_form {
+                background: #ffffff;
+				border: 1px solid #dbdbdb;
+				box-shadow: 2px 2px 2px 0 #c6c6c6;
+				padding: 35px 7px;
+				margin: 15px 7% !important;
+				float: left;
+            }
+            .btn-primary {
+                margin-left: 33%;
+            }
+            .btn-link {
+                margin-right: 33%;
+            }
+            .form-control {
+                background: #f4f4f4;
+				border: 1px solid #d0d0d0;
+				margin: 7px 0;
+				padding: 7px 15px;
+				width: 100%;
+            }
+			button, input, optgroup, select, textarea {
+				background: #f4f4f4;
+				margin-left: 0;
+				padding: 7px 15px;
+				width: 100%;
+			}
+            .control-label {
+				color: #7e7e7e;
+				font-weight: 700 !important;
+				margin-bottom: 5px !important;
+				padding-left: 0 !important;
+				text-transform: uppercase;
+            }
+            .form-horizontal .control-label {
+                text-align: left;
+            }
+			.btn-primary {
+				margin-left: 13%;
+				width: 150px;
+			}
+			#wrapwrap > main {
+				background: #f1f1f1;
+				height: 100%;
+			}
+			#DHTMLgoodies_formTooltipDiv{
+				color:#FFF;
+				font-family:arial;
+				font-weight:bold;
+				font-size:0.8em;
+				line-height:120%;
+			}
+			.DHTMLgoodies_formTooltip_closeMessage{
+				color:#FFF;
+				font-weight:normal;
+				font-size:0.7em;
+			}
+			#mainContainer{
+				width:760px;
+			}
+			.proforma_invoice {
+				border: 1px solid;
+				border-radius: 10px;
+				margin-bottom: 20px;
+			}
+			.datepicker{
+				padding:0px !important;
+			}
+			.ui-datepicker
+			select.ui-datepicker-year {
+				width: 50%;
+			}
+			.ui-datepicker
+			select.ui-datepicker-month {
+				width: 50%;
+			}
+        </style>
+		<script type="text/javascript" src="/webstore_service/static/src/js/form-field-tooltip.js"></script>
+		<script type="text/javascript" src="/webstore_service/static/src/js/rounded-corners.js"></script>
+		<script type="text/javascript">
+            $(function() {
+				var date = new Date();
+				var currentMonth = date.getMonth();
+				var currentDate = date.getDate();
+				var currentYear = date.getFullYear();
+				var yearback = currentYear - 12;
+				
+				var custom_vals_1 = {
+					changeMonth : true,
+					changeYear : true,
+					yearRange : '-75:+0',
+					showAnim: 'slideDown',
+					maxDate: new Date(yearback, currentMonth, currentDate),	
+				}
+				
+				$('#dob').datepicker(custom_vals_1);
+				$('#m1_dob').datepicker(custom_vals_1);
+				$('#m2_dob').datepicker(custom_vals_1);
+				$('#m3_dob').datepicker(custom_vals_1);
+				
+				var custom_vals_2 = {
+					changeMonth : true,
+					changeYear : true,
+					yearRange : '-75:+0',
+					showAnim: 'slideDown',
+					maxDate: new Date(currentYear, currentMonth, currentDate),
+					minDate: new Date(yearback, currentMonth, currentDate)	
+				}
+				
+				$('#c1_dob').datepicker(custom_vals_2);
+				$('#c2_dob').datepicker(custom_vals_2);
+				});
+    </script>
+	<div class="col-xs-12" style=" margin-bottom: 46px; padding-bottom: 20px;background-color:f1f1f1 !important;">
+	<div class="sign_up_form">
+		<div id="signup_lable" class="col-md-12" t-att-style="'display: None' if only_passwords else None">
+			<center><h2><u>Sign up</u></h2></center>
+		</div>
+		<div id="member_para" class="col-md-12" t-att-style="'display: None !important' if only_passwords else None">
+			<p>There are services for which a person may require early/express execution(e.g. a certificate duplicate from a University.),
+			and we are able to prioritise and deliver such services for you only if you are a subscribed member. This is why we recommend
+			that you join and register as a user paying the annual subscription fee because it will provide you fast access to services
+			and support when you require it - as our scope of services is very wide, you will reap more than the full value of your
+			subscription as it also fetches you some rebates on certain services. Please see "Services Access" page to know about membership benefits.</p><br/>
+			<p> Clients who are not subscribers will pay a higher fee across the range of services. To subscribe and remit the annual subscription,
+			fill in the membership form and become a member.</p>
+		</div>
+		<div class="col-md-12" t-att-style="'display: None' if only_passwords else None">
+		<div id="is_member_guest1" class="col-md-6 form-group form-field" t-att-style="'display: None' if only_passwords else None">
+			<label class="control-label" for="is_member_guest">Sign-up As</label>
+			  <select id="is_member_guest" class="form-control" name="is_member_guest" onclick="MemberGuest(this)" style="width: 100%;">
+				  <option value="guest">Guest</option>
+				  <option value="member">Member</option>
+			  </select>
+		  </div>
+		
+		<div id="image" class="form-group field-image col-md-6" t-att-style="'display: None' if only_passwords else None">
+			<label class="control-label" for="image">Photo (JPG only)</label>
+			<img name="image" t-att-value="image" id="image" style="width: 33% !important;" />
+			<input type="file" name="file" id="image_file" accept="image/*" data-show-upload="true" data-show-caption="true" data-show-preview="true" />
+		</div>
+		</div>
+		<div class="col-xs-12">
+			<div class="form-group field-name col-md-6">
+				<label for="name" class="control-label">Your Name</label>
+				<input type="text" name="name" t-att-value="name" id="name" class="form-control" placeholder="e.g. John Doe"
+					required="required" t-att-readonly="'readonly' if only_passwords else None" 
+					t-att-autofocus="'autofocus' if login and not only_passwords else None" />
+			</div>
+			<div class="form-group field-login col-md-6">
+				<label for="login" class="control-label">Your Email</label>
+				<input type="text" name="login" t-att-value="login" id="login" class="form-control" autofocus="autofocus"
+					required="required" t-att-readonly="'readonly' if only_passwords else None"/>
+			</div>
+		</div>
+		<div class="col-xs-12">
+			<div class="form-group field-password col-md-6">
+				<label for="password" class="control-label">Password</label>
+				<input type="password" name="password" id="password" class="form-control"
+					required="required" t-att-autofocus="'autofocus' if only_passwords else None"/>
+			</div>
+			<div class="form-group field-confirm_password col-md-6">
+				<label for="confirm_password" class="control-label">Confirm Password</label>
+				<input type="password" name="confirm_password" id="confirm_password" class="form-control" required="required"/>
+			</div>
+		</div>
+		<div class="col-xs-12">
+		<!--<xpath expr="//div[@class='form-group field-confirm_password']" position="after">-->
+			<input type="checkbox" name="customer" id="customer" checked="" class="form-control" style="display:none;"/>
+			<div class="form-group field-dob col-md-6" t-att-style="'display: None' if only_passwords else None">
+				<label for="dob" class="control-label">Date of Birth</label>
+				<input type="text" name="dob" id="dob" class="form-control col-xs-8 datepicker "
+					required="required" t-att-readonly="'readonly' if only_passwords else None" style="background-color: #fff;" readonly="readonly"/>
+			</div>
+			
+			<div class="form-group col-md-6" t-att-style="'display: None' if only_passwords else None">
+				<label for="profession" class="control-label">Profession</label>
+				<input type="text" name="profession" id="profession" class="form-control"/>
+			</div>
+		</div>
+			<!--<div class="form-group col-xs-6" >
+				<label for="email" class="control-label">Email Id for communication</label>
+				<input type="text" class="form-control" id="" name="" placeholder="Email..." />
+			</div>-->
+		<div class="col-xs-12">
+			<div class="form-group field-phone col-md-6" t-att-style="'display: None' if only_passwords else None">
+				<label for="phone" class="control-label">Phone/Landline(with ISD/STD code)</label>
+				<input type="text" name="phone" id="phone" class="form-control"
+					t-att-readonly="'readonly' if only_passwords else None"/>
+			</div>
+			<div class="form-group field-mobile col-md-6" t-att-style="'display: None' if only_passwords else None">
+				<label for="mobile" class="control-label">Mobile/Handphone(with country code)</label>
+				<input type="text" name="mobile" id="mobile" class="form-control"
+					t-att-readonly="'readonly' if only_passwords else None" placeholder="+91-987-654XXXX"/>
+			</div>
+		</div>
+			<div id="full_address" t-att-style="'display: None' if only_passwords else None">
+				<label class="col-xs-11 control-label" style="margin: 15px ! important; padding: 7px 15px 7px 0px ! important; color: rgb(252, 150, 29); background: rgb(255, 255, 255) none repeat scroll 0% 0%; font-size: 17px; font-weight: 600;"
+					   for="address"><b>Complete overseas residential address</b></label>
+			</div>
+			<div class="col-xs-12" t-att-style="'display: None' if only_passwords else None">
+				<div class="form-group field_street col-md-6" >
+					<label for="street" class="control-label">Address line1</label>
+					<input type="text" class="form-control" id="street" name="street" placeholder="Street..." />
+				</div>
+				<div class="form-group field_street2 col-md-6">
+					<label for="street2" class="control-label">Address line2</label>
+					<input type="text" class="form-control" id="street2" name="street2" placeholder="Street..." />
+				</div>
+			</div>
+			<div class="col-xs-12" t-att-style="'display: None' if only_passwords else None">
+				<div class="form-group field_city col-md-6" >
+					<label for="city" class="control-label">City</label>
+					<input type="text" class="form-control" id="city" name="city" placeholder="City..." />
+				</div>
+				<div class="form-group field_zip col-md-6" >
+					<label for="zip" class="control-label">Zip</label>
+					<input type="text" class="form-control" id="zip" name="zip" placeholder="Zip..." />
+				</div>
+			</div>
+			<div class="col-xs-12" t-att-style="'display: None' if only_passwords else None">
+				<div class="col-md-6 field-country" >
+					<label for="Country" class="control-label col-xs-6">Country</label>
+					<select id="country_id" name="country_id" class="form-control" style="background: transparent;">
+						<t t-set="countries" t-value="request and request.env['res.country'].search([])" />
+						<t t-foreach="countries" t-as="country">
+							<option t-att-value="country.id">
+								<t t-esc="country.name" />
+							</option>
+						</t>
+					</select>
+				</div>
+			</div>
+			<div id="requirement" t-att-style="'display: None' if only_passwords else None">
+				<label class="col-xs-11 control-label" style="margin: 15px ! important; padding: 7px 15px 7px 0px ! important; color: rgb(252, 150, 29); background: rgb(255, 255, 255) none repeat scroll 0% 0%; font-size: 17px; font-weight: 600;"
+					   for="requirement"><b>Services Requirement</b></label>
+			</div>
+			<div class="col-xs-12" t-att-style="'display: None' if only_passwords else None">
+				<div id="service_avail" class="form-group col-md-6" >
+					<label for="service" class="control-label">Service most likely to avail</label>
+					<input type="text" class="form-control" id="service" name="service" placeholder="Name 1-3 services from our range" />
+				</div>
+				<div id="mumbai_graphics" class="form-group col-md-6" >
+					<label for="geographics" class="control-label">Your Mumbai Geographies</label>
+					<input type="text" class="form-control" id="geographics" name="geographics" placeholder="" />
+				</div>
+			</div>
+			<div class="col-xs-12" t-att-style="'display: None' if only_passwords else None">
+				<div id="source_id" class="form-group col-md-6" >
+					<label for="source" class="control-label">How do you know about WeCARE</label>
+					<select id="source_id" onclick="source(this)" name="source_id" class="form-control" style="background: transparent;">
+						<t t-set="sources" t-value="request and request.env['utm.source'].search([])"/>
+						<t t-foreach="sources" t-as="source">
+							<option t-att-value="source.name"><t t-esc="source.name"/></option>
+						</t>
+					</select>
+				</div>
+				<div id="other_source" class="form-group col-md-6" style="display:None;" >
+					<label for="other_source_name" class="control-label">From where</label>
+					<input type="text" class="form-control" id="other_source_by" name="other_source_by"/>
+				</div>
+			</div>
+			<div class="col-xs-12" t-att-style="'display: None' if only_passwords else None">
+				<div id="reffered" class="form-group col-md-6" >
+					<label for="reffered_by_name" class="control-label">Referred by</label>
+					<input type="text" class="form-control" id="reffered_by" name="reffered_by" placeholder="Give referring member’s Name" />
+				</div>
+				<div id="reffered_by_number" class="form-group col-md-6" >
+					<label for="refferd_by_code" class="control-label">Referring member's membership number</label>
+					<input type="text" class="form-control" id="refferd_by_code" name="refferd_by_code" placeholder="Give referring member’s membership number" />
+				</div>
+			</div>
+			
+			<!--<div class="form-group field-address col-xs-9">-->
+			<!--	<label for="dob" class="control-label">Address</label>-->
+			<!--	<input type="text" class="form-control" id="street" name="street" placeholder="Street..." />-->
+			<!--	<input type="text" class="form-control" id="street2" name="street2" placeholder="Street 2..." />-->
+			<!--	<input type="text" class="col-xs-6" id="street2" name="street2"  placeholder="City" style="border: 1px solid #cccccc;border-radius: 4px;height: 34px;"/>-->
+			<!--	<input type="text" class="col-xs-6" maxlength="24" placeholder="ZIP" style="border: 1px solid #cccccc;border-radius: 4px;height: 34px;"/>-->
+			<!--	<select class="form-control" style="background: transparent;">-->
+			<!--		<t t-set="countries" t-value="request and request.env['res.country'].search([])"/>-->
+			<!--		<t t-foreach="countries" t-as="country">-->
+			<!--			<option>-->
+			<!--				<t t-esc="country.name"/> -->
+			<!--			</option>-->
+			<!--		</t>-->
+			<!--	</select>-->
+			<!--</div>-->
+			<!--<div>-->
+			<!--	<label for="reg_child" style="display: inline-block;">Register minor childrens?</label>-->
+			<!--	<input type="checkbox" onclick="javascript:ChildCheck();" name="reg_child" id="reg_child" class="form-control" style="display: inline-block; width: unset; height: unset;"/>-->
+			<!--	<label for="sp_offer" style="display: inline-block; padding-left: 40px;">Special offer</label>-->
+			<!--	<input type="checkbox" onclick="javascript:spoffer();" name="sp_offer" id="sp_offer" class="form-control" style="display: inline-block; width: unset; height: unset;"/>-->
+			<!--</div>-->
+			<div class="form-group col-xs-12" style="display:none;">
+				<label for="reg_child" style="display: inline-block;">Register minor childrens?</label>
+				<input type="checkbox"  onclick="javascript:ChildCheck();" name="reg_child" id="reg_child" class="form-control" style="display: inline-block; width: unset; height: unset;"/>
+				<label for="sp_offer" style="display: inline-block; padding-left: 40px;">Special offer</label>
+				<input type="checkbox" checked="checked" onclick="javascript:spoffer();" name="sp_offer" id="sp_offer" class="form-control" style="display: inline-block; width: unset; height: unset;"/>
+			</div>
+			<div id="register_minor" class="form-group col-xs-12" t-att-style="'display: None' if only_passwords else None">
+				<input type="checkbox" name="register_minor" onclick="RegisterMinor(this)" class="col-xs-6 form-control o_website_form_input oe_inline" style="width:20px" />
+				<label for="register_minor" class="control-label col-xs-6 oe_inline" style="font-weight: bold !important;margin-left:3%;padding-top: 14px; color: rgb(252, 150, 29);">Do you want to register Minors free of charge?</label>
+			</div>
+			<div id="minor_registration" class="form-group col-xs-12" t-att-style="'display: None' if only_passwords else None">
+			<div id="minor_reg" t-att-style="'display: None' if only_passwords else None">
+				<label class="col-xs-11 control-label" style="margin: 15px ! important; padding: 7px 15px 7px 0px ! important; color: rgb(252, 150, 29); background: rgb(255, 255, 255) none repeat scroll 0% 0%; font-size: 17px; font-weight: 600;"
+					   for="address"><b>Register Minor Children</b></label>
+			</div>
+			 <!--t-att-invisible="'invisible' if reg_child"-->
+				<!--<div class="field-child1 col-md-6">-->
+				<div class="form-group field-c1_name col-md-6">
+					<label for="c1_name" class="control-label">Name(1st minor)</label>
+					<input type="text" name="c1_name" id="c1_name" class="form-control"
+					tooltipText=" Below the age of 12 years as on date of this application/payment of subscription whichever is earlier, if desired to be included"/>
+				</div>
+				<div class="form-group field-c1_dob col-md-6">
+					<label for="c1_dob" class="control-label">Date of Birth(1st minor)</label>
+					<input type="text" name="c1_dob" id="c1_dob" class="form-control col-xs-8 datepicker" style="background-color: #fff;" readonly="readonly"/>
+				</div>
+				<!--</div>-->
+				<!--<div class="field-child2 col-xs-6">-->
+				<div class="form-group field-c2_name col-md-6">
+					<label for="c2_name" class="control-label">Name(2nd minor)</label>
+					<input type="text" name="c2_name" id="c2_name" class="form-control"
+					tooltipText=" Below the age of 12 years as on date of this application/payment of subscription whichever is earlier, if desired to be included"/>
+				</div>
+				<div class="form-group field-c2_dob col-md-6">
+					<label for="c2_dob" class="control-label">Date of Birth(2nd minor)</label>
+					<input type="text" name="c2_dob" id="c2_dob" class="form-control col-xs-8 datepicker" style="background-color: #fff;" readonly="readonly"/>
+				</div>
+				<!--</div>-->
+			</div>
+			<div id="addon_member" class="form-group col-xs-12" t-att-style="'display: None' if only_passwords else None">
+				<input type="checkbox" name="addon_member" onclick="AddOn(this)" class="col-xs-6 form-control o_website_form_input oe_inline" style="width:20px;"/>
+				<label for="addon_member" class="control-label col-xs-6 oe_inline" style="font-weight: bold !important;margin-left:3%;padding-top: 14px; color: rgb(252, 150, 29);">Do you want to register Add-on members free of charge?</label>
+			</div>
+			<div id="member_registration" class="oe_inline col-xs-12" t-att-style="'display: None' if only_passwords else None">
+			<div id="member_reg1" t-att-style="'display: None' if only_passwords else None">
+				<label class="col-xs-11 control-label" style="margin: 15px ! important; padding: 7px 15px 7px 0px ! important; color: rgb(252, 150, 29); background: rgb(255, 255, 255) none repeat scroll 0% 0%; font-size: 17px; font-weight: 600;" for="address"><b>
+				Add-on Member Registration</b></label>
+			</div>
+				<div class="form-group oe_inline col-md-4" id="memberForm">
+					<label class="control-label" style="color: rgb(252, 150, 29); background: rgb(255, 255, 255) none repeat scroll 0% 0%;">Member 1</label>
+					<div class="form-group field-m1_name">
+						<label for="m1_name" class="control-label">Member Name</label>
+						<!--<p id="demo" onmouseover="mouseOver()" onmouseout="mouseOut()">
+							<label id="m1_hover">some text here</label>
+						</p>-->
+						<input type="text" name="m1_name" id="m1_name" class="form-control" tooltipText="You may add the name of your friend/relative in India or abroad whom you want to avail of our services. Read service access for rules."></input>
+						
+					</div>
+					
+					<div class="form-group field-m1-address">
+						<label for="ma1" class="control-label">Address</label>
+						<input type="text" class="form-control" id="street" name="street" placeholder="Address Line1..." />
+						<input type="text" class="form-control" id="street2" name="street2" placeholder="Address Line2..." />
+						<input type="text" class="col-xs-6" id="street2" name="street2"  placeholder="City" style="border: 1px solid #cccccc;border-radius: 4px;height: 34px;"/>
+						<input type="text" class="col-xs-6" maxlength="24" placeholder="ZIP" style="border: 1px solid #cccccc;border-radius: 4px;height: 34px;"/>
+						<select class="form-control" style="background: transparent;">
+							<t t-set="countries" t-value="request and request.env['res.country'].search([])"/>
+							<t t-foreach="countries" t-as="country">
+								<option>
+									<t t-esc="country.name"/> 
+								</option>
+							</t>
+						</select>
+					</div>
+					<div class="form-group field-m1_age">
+						<label for="m1_dob" class="control-label">Date of Birth</label>
+						<input type="text" name="m1_dob" id="m1_dob" class="form-control col-xs-8 datepicker" readonly="readonly" style="background-color: #fff;"/>
+					</div>
+					<div class="form-group field-m1-phone">
+						<label for="m1_phone" class="control-label">Phone/Landline(with ISD/STD code)</label>
+						<input type="text" name="m1_phone" id="m1_phone" class="form-control"
+							t-att-readonly="'readonly' if only_passwords else None"/>
+					</div>
+					<div class="form-group field-m1-email">
+						<label for="m1_email" class="control-label">Email</label>
+						<input type="text" name="m1_email" id="m1_email" class="form-control"/>
+					</div>
+					<div class="form-group"> 
+					    <label for="m1_relation" class="control-label">Relationship with Primary Member</label>
+						<input type="text" name="m1_relation" id="m1_relation" class="form-control"/>
+					</div>
+				</div>
+				<div class="form-group oe_inline col-md-4" id="memberForm2">
+					<label class="control-label" style="color: rgb(252, 150, 29); background: rgb(255, 255, 255) none repeat scroll 0% 0%;">Member 2</label>
+					<div class="form-group field-m2_name">
+						<label for="m2_name" class="control-label">Member Name</label>
+						<input type="text" name="m2_name" id="m2_name" class="form-control" tooltipText="You may add the name of your friend/relative in India or abroad whom you want to avail of our services. Read service access for rules."/>
+					</div>
+					<div class="form-group field-m2-address">
+						<label for="ma2" class="control-label">Address</label>
+						<input type="text" class="form-control" id="street" name="street" placeholder="Address Line1..." />
+						<input type="text" class="form-control" id="street2" name="street2" placeholder="Address Line2..." />
+						<input type="text" class="col-xs-6" id="street2" name="street2"  placeholder="City" style="border: 1px solid #cccccc;border-radius: 4px;height: 34px;"/>
+						<input type="text" class="col-xs-6" maxlength="24" placeholder="ZIP" style="border: 1px solid #cccccc;border-radius: 4px;height: 34px;"/>
+						<select class="form-control" style="background: transparent;">
+							<t t-set="countries" t-value="request and request.env['res.country'].search([])"/>
+							<t t-foreach="countries" t-as="country">
+								<option>
+									<t t-esc="country.name"/> 
+								</option>
+							</t>
+						</select>
+					</div>
+					<div class="form-group field-m2_dob">
+						<label for="m2_dob" class="control-label">Date of Birth</label>
+						<input type="text" name="m2_dob" id="m2_dob" class="form-control col-xs-8 datepicker" readonly="readonly" style="background-color: #fff;"/>
+					</div>
+					<div class="form-group field-m2-phone">
+						<label for="m2_phone" class="control-label">Phone/Landline(with ISD/STD code)</label>
+						<input type="text" name="m2_phone" id="m2_phone" class="form-control"
+							t-att-readonly="'readonly' if only_passwords else None"/>
+					</div>
+					<div class="form-group field-m2-email">
+						<label for="m2_email" class="control-label">Email</label>
+						<input type="text" name="m2_email" id="m2_email" class="form-control"/>
+					</div>
+					<div class="form-group"> 
+					    <label for="m2_relation" class="control-label">Relationship with Primary Member</label>
+						<input type="text" name="m2_relation" id="m2_relation" class="form-control"/>
+					</div>
+				</div>
+				<div class="form-group oe_inline col-md-4" id="memberForm3">
+					<label class="cont
+					abel" style="color: rgb(252, 150, 29); background: rgb(255, 255, 255) none repeat scroll 0% 0%;">Member 3</label>
+					<div class="form-group field-m3_name">
+						<label for="m3_name" class="control-label">Member Name</label>
+						<input type="text" name="m3_name" id="m3_name" class="form-control" tooltipText="You may add the name of your friend/relative in India or abroad whom you want to avail of our services. Read service access for rules."/>
+					</div>
+					<div class="form-group field-m3-address">
+						<label for="ma3" class="control-label">Address</label>
+						<input type="text" class="form-control" id="street" name="street" placeholder="Address Line1..." />
+						<input type="text" class="form-control" id="street2" name="street2" placeholder="Address Line2..." />
+						<input type="text" class="col-xs-6" id="street2" name="street2"  placeholder="City" style="border: 1px solid #cccccc;border-radius: 4px;height: 34px;"/>
+						<input type="text" class="col-xs-6" maxlength="24" placeholder="ZIP" style="border: 1px solid #cccccc;border-radius: 4px;height: 34px;"/>
+						<select class="form-control" style="background: transparent;">
+							<t t-set="countries" t-value="request and request.env['res.country'].search([])"/>
+							<t t-foreach="countries" t-as="country">
+								<option>
+									<t t-esc="country.name"/> 
+								</option>
+							</t>
+						</select>
+					</div>
+					<div class="form-group field-m3_dob">
+						<label for="m3_dob" class="control-label">Date of Birth</label>
+						<input type="text" name="m3_dob" id="m3_dob" class="form-control col-xs-8 datepicker" readonly="readonly" style="background-color: #fff;"/>
+					</div>
+					<div class="form-group field-m3-phone">
+						<label for="m3_phone" class="control-label">Phone/Landline(with ISD/STD code)</label>
+						<input type="text" name="m3_phone" id="m3_phone" class="form-control"
+							t-att-readonly="'readonly' if only_passwords else None"/>
+					</div>
+					<div class="form-group field-m3-email">
+						<label for="m3_email" class="control-label">Email</label>
+						<input type="text" name="m3_email" id="m3_email" class="form-control"/>
+					</div>
+					<div class="form-group"> 
+					    <label for="m3_relation" class="control-label">Relationship with Primary Member</label>
+						<input type="text" name="m3_relation" id="m3_relation" class="form-control"/>
+					</div>
+				</div>
+			</div>
+			<div id="membership_bill" class="col-xs-12 proforma_invoice" t-att-style="'display: None' if only_passwords else None" >
+				<center>
+				  <h2 style="font-weight: bold;margin-bottom: 20px;font-size:25px;">PROFORMA INVOICE</h2>
+				</center>
+				<table class="col-xs-12" style="margin-bottom:30px;">
+				  <tr>
+					<td style="font-weight:bold">Membership amount</td>
+					<td style="font-weight:bold">US $260.00</td>
+				  </tr>
+				  <tr>
+					<td style="height:50px;">(Including all Govt. of india taxes)</td>
+					<td style="height:50px;">(US Dollars two hundred sixty only)</td>
+				  </tr>
+				  <tr>
+					<td style="font-weight:bold; height:60px;">
+					Remit to:<br/>
+					 WeCARE Global Home Solutions Pvt.Ltd.<br/>
+					Standard Chartered Bank
+					<br/>Hiranandani Meadows<br/>
+					Gladys Alvares Road<br/>
+					Thane - 400610<br/>
+					India</td>
+				  </tr>
+				  <tr>
+					<td style="height:60px;">
+						Current Account Number: 246-050-5321-1<br/>
+						SWIFT CODE: SCBLINBBXXX<br/>
+					</td>
+				  </tr>
+				  <tr>
+					<td style="font-weight:bold">
+						Subscription amount is non refundable and non transferable.
+					</td>
+				  </tr>
+				</table>
+			</div>
+			<!--<div class="col-xs-12 form-group form-field" style="margin-top:10px;">
+				<input name="Certified Copy of Order" value="Yes" type="checkbox" style="width:10px;" required="required" class="col-xs-3 form-control o_website_form_input"  tabindex="12"/>
+				<label class="control-label col-xs-6" for="certified" style="width: 400px;font-weight: bold !important;margin-left:3%;padding-top: 14px;">I am above 18 years of age</label>
+			</div>-->
+			<div id="agree" class="col-xs-12 form-group form-field" t-att-style="'display: None' if only_passwords else None">
+				<input id="agree_button" name="Certified Copy of Order" value="Yes" type="checkbox" style="width:20px;" class="col-xs-6 form-control o_website_form_input oe_inline"/>
+				<label class="control-label col-xs-6 oe_inline" for="certified" style="font-weight: bold !important;margin-left:3%;padding-top: 14px;">I accept all Terms and Conditions</label>
+				<!--<div class="g-recaptcha" t-att-data-sitekey="website.recaptcha_site_key" ></div>-->
+			</div>
+		</div>
+    </div>
+	
+<script>
+document.getElementById("image_file").onchange = function () {
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+        // get loaded data and render thumbnail.
+        document.getElementById("image").src = e.target.result;
+    };
+
+    // read the image file as a data URL.
+    reader.readAsDataURL(this.files[0]);
+};
+function source(elem) {
+    if (elem.value == 'Any other') {
+		document.getElementById('other_source').style.display = 'block';
+	}
+	else {
+		document.getElementById('other_source').style.display = 'none';
+	}
+}
+function MemberGuest(elem) {
+	if (window.location.search.indexOf('token=') > -1) {
+		return;
+	}
+	if (elem.value == 'guest') {
+		document.getElementById('image').style.display = 'none';
+		document.getElementById('membership_bill').style.display = 'none';
+		document.getElementById('member_para').style.display = 'block';
+		document.getElementById('agree').style.display = 'none';
+        document.getElementById('member_registration').style.display = 'none';
+		document.getElementById('member_reg1').style.display = 'none';
+		document.getElementById('minor_reg').style.display = 'none';
+		document.getElementById('minor_registration').style.display = 'none';
+		document.getElementById('service_avail').style.display = 'none';
+		document.getElementById('requirement').style.display = 'none';
+		document.getElementById('mumbai_graphics').style.display = 'none';
+		document.getElementById('reffered_by_number').style.display = 'none';
+		document.getElementById('reffered').style.display = 'none';
+		document.getElementById('source_id').style.display = 'none';
+		document.getElementById('register_minor').style.display = 'none';
+		document.getElementById('addon_member').style.display = 'none';
+	} else if(elem.value == 'member'){
+		document.getElementById('image').style.display = 'block';
+		document.getElementById('member_para').style.display = 'none';
+		document.getElementById('agree').style.display = 'block';
+		document.getElementById('membership_bill').style.display = 'block';
+		document.getElementById('member_registration').style.display = 'none';
+		document.getElementById('member_reg1').style.display = 'block';
+		document.getElementById('minor_reg').style.display = 'block';
+		document.getElementById('minor_registration').style.display = 'none';
+		document.getElementById('service_avail').style.display = 'block';
+		document.getElementById('requirement').style.display = 'block';
+		document.getElementById('mumbai_graphics').style.display = 'block';
+		document.getElementById('reffered_by_number').style.display = 'block';
+		document.getElementById('source_id').style.display = 'block';
+		document.getElementById('reffered').style.display = 'block';
+		document.getElementById('agree_button').required = true;
+		document.getElementById('register_minor').style.display = 'block';
+		document.getElementById('addon_member').style.display = 'block';
+	}
+};
+
+function RegisterMinor(elem) {
+	if (elem.checked === true) {
+		document.getElementById('minor_registration').style.display = 'block';
+		
+	} else if(elem.checked === false){
+		document.getElementById('minor_registration').style.display = 'none';
+	}
+};
+
+function AddOn(elem) {
+	if (elem.checked === true) {
+		document.getElementById('member_registration').style.display = 'block';
+		
+	} else if(elem.checked === false){
+		document.getElementById('member_registration').style.display = 'none';
+	}
+};
+
+window.onload = function() {
+  MemberGuest(document.getElementById('is_member_guest'));
+  
+};
+var tooltipObj = new DHTMLgoodies_formTooltip();
+tooltipObj.setTooltipPosition('top');
+tooltipObj.setPageBgColor('#FFFF');
+tooltipObj.setTooltipCornerSize(15);
+tooltipObj.setCloseMessage('Exit');
+tooltipObj.initFormFieldTooltip();
+function mouseOver() {
+    document.getElementById("demo").style.display = "block";
+}
+
+function mouseOut() {
+    document.getElementById("demo").style.display = "none";
+}
+</script>
+</template>
+
+<template id="webstore_signup" name="webstore_signup" inherit_id="auth_signup.signup">
+	<xpath expr="//form" position="attributes">
+		<attribute name="enctype">multipart/form-data</attribute>
+	</xpath>
+</template>
+
+<template id="thanks" name="Thanks">
+  <t t-call="website.layout">
+    <div id="wrap" style="background-color: #f4f5f7;">
+      <style>
+      .navbar-static-top{
+        position: fixed;
+        width: 100%;
+    }
+       
+    .form-control
+    {
+        border: 3px solid #e6e6e6 !important;
+        color:#555 !important;
+        height:46px;
+        padding:12px;
+         
+    }
+    
+    .control-label
+    {
+        font-weight:300 !important;
+    }
+ 
+    </style>
+      <div class="container">
+        <div class="row" style="margin-top:35px;">
+          <div class="col-md-8" style="background-color: white; border: 1px solid rgb(198, 194, 194) ! important; border-radius: 10px; margin-left: 25%; margin-top: 57px; padding-bottom: 51px; width: 469px; margin-bottom: 35px; height: auto;">
+            <h2 style="margin-top:20px;margin-bottom:20px;">
+              <center style="color: rgb(34, 34, 34); letter-spacing: 12px; font-size: 36px;">Thank You! </center>
+            </h2>
+            <center>
+              <h4 style="margin-top: -4px; color: rgb(34, 34, 34); letter-spacing: 1px;">for choosing WeCARE</h4>
+            </center>
+            <div class="o_image_floating o_margin_l pull-right s_image_floating">
+              <div class="o_container">
+                <img style="margin-left: -107px; width: 100px; height: 100px;" class="img img-rounded img-responsive" src="/web/image/1228" alt="Odoo CMS- Sample image floating"/>
+              </div>
+              <h4 style="margin-left: -234px; margin-top: 36px; color: rgb(34, 34, 34);">We got your response.We will get back to you soon</h4>
+              <div class="o_footer">
+                <small class="text-muted">&amp;nbsp;</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </t>
+</template>
+
+
+</odoo>

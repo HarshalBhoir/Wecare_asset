@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<odoo>
+
+<!-- Partner Form -->
+<record id="partner_extension_form" model="ir.ui.view">
+	<field name="name">res.partner.extension.form</field>
+	<field name="model">res.partner</field>
+	<field name="inherit_id" ref="base.view_partner_form" />
+	<field name="arch" type="xml">
+		<field name="function" position="before">
+			<field name="is_member_guest" attrs="{'invisible': [('customer','!=',True)]}" string="Signup As"/>
+		</field>
+		<field name="phone" position="before">
+			<field name="dob" />
+		</field>
+		<field name="website" position="after">
+			<field name="contact_person" attrs="{'invisible': [('supplier','!=',True)]}"/>
+			<field name="contact_person_number" attrs="{'invisible': [('supplier','!=',True)]}"/>
+			<field name="name_owner" attrs="{'invisible': [('supplier','!=',True)]}"/>
+			<field name="owner_address" attrs="{'invisible': [('supplier','!=',True)]}"/>
+			<field name="profession"  attrs="{'invisible': [('customer','!=',True)]}"/>
+			<field name="service" attrs="{'invisible': [('customer','!=',True)]}"/>
+			<field name="geographics" attrs="{'invisible': [('customer','!=',True)]}"/>
+			<field name="refferd_by_code" attrs="{'invisible': [('customer','!=',True)]}"/>
+			<field name="reffered_by" attrs="{'invisible': [('customer','!=',True)]}"/>
+			<field name="source_id" attrs="{'invisible': [('customer','!=',True)]}"/>
+			<field name="other_source" attrs="{'invisible': [('customer','!=',True)]}"/>
+		</field>
+		<field name="category_id" position="after">
+			<field name="banker_name" attrs="{'invisible': [('supplier','!=',True)]}"/>
+			<field name="banker_address" attrs="{'invisible': [('supplier','!=',True)]}"/>
+		</field>
+		<page name="sales_purchases" position="after">
+			<page name="vendor_details" string="Vendor Details" attrs="{'invisible': [('supplier','!=',True)]}">
+				<group col="4" colspan="2">
+					<field name="licence_required"/>
+					<field name="authority_licence"/>
+					<field name="pan_number"/>
+					<field name="no_of_employee"/>
+					<field name="emp_covered_by_insurance"/>
+				</group>
+				<group col="4" colspan="2">
+					<field name="service_provided"/>
+					<field name="working_hours"/>
+				</group>
+				<group>
+					<field name="licence_copy_name" invisible="1"/>
+					<field name="licency_copy" filename = "licence_copy_name"/>
+					<field name="service_tax_name" invisible="1"/>
+					<field name="service_tax" filename = "service_tax_name"/>
+				</group>
+				
+			</page>
+		</page>
+		<xpath expr="//notebook/page[1]" position="before">
+			<page name="minor_details" string="Minor Details" attrs="{'invisible': [('customer','!=',True)]}">
+				<group col="4" colspan="2">
+					<field name="c1_name"/>
+					<field name="c1_dob"/>
+					<field name="c2_name"/>
+					<field name="c2_dob"/>
+				</group>
+			</page>
+		</xpath>
+	</field>
+</record>
+
+<record id="lead_extension_form" model="ir.ui.view">
+	<field name="name">crm.lead.extension.form</field>
+	<field name="model">crm.lead</field>
+	<field name="inherit_id" ref="crm.crm_case_form_view_oppor" />
+	<field name="arch" type="xml">
+		<xpath expr="//notebook/page[1]" position="before">
+			<page string="Lead Data">
+				<group string="Lead Data">
+					<field name="html" col='4' nolabel="1"/>
+				</group>
+			</page>
+		</xpath>
+	</field>
+</record>
+
+<record model="ir.ui.view" id="ir_mail_server_form_auto_cc">
+	<field name="name">ir.mail_server.form</field>
+	<field name="model">ir.mail_server</field>
+	<field name="inherit_id" ref="base.ir_mail_server_form"/>
+	<field name="arch" type="xml">
+		  <sheet position="inside">
+			<group string="Auto CC/BCC" colspan="4">
+			   <field name="cc"/>
+		   </group>
+		 </sheet>  
+	</field>
+</record>
+
+<record id="user_extension_tree" model="ir.ui.view">
+	<field name="name">res.users.extension.tree</field>
+	<field name="model">res.users</field>
+	<field name="inherit_id" ref="base.view_users_tree" />
+	<field name="arch" type="xml">
+		<xpath expr="//tree" position="attributes">
+			<attribute name="colors">green:is_member_guest=='member';red:is_member_guest=='guest';</attribute>
+		</xpath>
+		<field name="name" position="after">
+			<field name="is_member_guest" string="Signup As"/>
+			<field name="secondary_member"/>
+			<field name="parent_member"/>
+		</field>
+	</field>
+</record>
+
+<record id="user_extension_form" model="ir.ui.view">
+	<field name="name">res.users.extension.form</field>
+	<field name="model">res.users</field>
+	<field name="inherit_id" ref="base.view_users_form" />
+	<field name="arch" type="xml">
+		<field name="login" position="after">
+			<group>
+				<label for="is_member_guest"/>
+				<div>
+					<field name="is_member_guest" string="Signup As" class="oe_inline"/>
+					<button name="mail_send" string="Send mail" type="object" class="oe_highlight oe_inline" attrs="{'invisible': [('is_member_guest','!=','member')]}"/>
+				</div>
+				<field name="secondary_member"/>
+				<field name="parent_member"/>
+				<field name="refferal" readonly="1"/>
+				<field name="renew_membership_date" invisible="1"/>
+				<field name="renew_member_fiften" invisible="1"/>
+				<field name="renew_member_fourfive" invisible="1"/>
+			</group>
+		</field>
+	</field>
+</record>
+</odoo>
